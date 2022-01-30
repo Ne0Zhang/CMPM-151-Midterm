@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+using UnityOSC;
+
 public class CollectOrb : MonoBehaviour
 {
     public int score = 0;
@@ -22,9 +24,14 @@ public class CollectOrb : MonoBehaviour
     void OnTriggerEnter(Collider other) {
         if (other.CompareTag("Collect")) {
             // Debug.Log("Coin Collect");
+
+            //************* Send the message to the client...
+            OSCHandler.Instance.SendMessageToClient ("pd", "/unity/trigger", score);
+            //*************
             score++;
-            Score.text = "Coin Collected: " + score;
+            Score.text = "Coin Collected: " + score + "/10";
             Destroy(other.gameObject);
+
         }
     }
 }
